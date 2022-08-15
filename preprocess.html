@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 数据预处理 | XSeurat2 中文教程</title>
+  <meta name="description" content="2 数据预处理 | XSeurat2 中文教程" />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 数据预处理 | XSeurat2 中文教程" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 数据预处理 | XSeurat2 中文教程" />
+  
+  
+  
+
+<meta name="author" content="傅兴" />
+
+
+<meta name="date" content="2022-08-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="clustering.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">XSeurat2 中文教程</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> 简介</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#系统需求"><i class="fa fa-check"></i><b>1.1</b> 系统需求</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#下载镜像"><i class="fa fa-check"></i><b>1.2</b> 下载镜像</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#安装运行"><i class="fa fa-check"></i><b>1.3</b> 安装运行</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#x-官方数据下载"><i class="fa fa-check"></i><b>1.4</b> 10x 官方数据下载</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="preprocess.html"><a href="preprocess.html"><i class="fa fa-check"></i><b>2</b> 数据预处理</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="preprocess.html"><a href="preprocess.html#each_sample"><i class="fa fa-check"></i><b>2.1</b> 处理单个样本</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="preprocess.html"><a href="preprocess.html#创建对象"><i class="fa fa-check"></i><b>2.1.1</b> 创建对象</a></li>
+<li class="chapter" data-level="2.1.2" data-path="preprocess.html"><a href="preprocess.html#双细胞分析"><i class="fa fa-check"></i><b>2.1.2</b> 双细胞分析</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="preprocess.html"><a href="preprocess.html#merge_rds"><i class="fa fa-check"></i><b>2.2</b> 合并样本/添加元数据</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="preprocess.html"><a href="preprocess.html#添加样本信息"><i class="fa fa-check"></i><b>2.2.1</b> 添加样本信息</a></li>
+<li class="chapter" data-level="2.2.2" data-path="preprocess.html"><a href="preprocess.html#添加基因集-umi-百分比"><i class="fa fa-check"></i><b>2.2.2</b> 添加基因集 UMI 百分比</a></li>
+<li class="chapter" data-level="2.2.3" data-path="preprocess.html"><a href="preprocess.html#添加基因集打分"><i class="fa fa-check"></i><b>2.2.3</b> 添加基因集打分</a></li>
+<li class="chapter" data-level="2.2.4" data-path="preprocess.html"><a href="preprocess.html#标记表达特定基因的细胞"><i class="fa fa-check"></i><b>2.2.4</b> 标记表达特定基因的细胞</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="preprocess.html"><a href="preprocess.html#操作对象元数据"><i class="fa fa-check"></i><b>2.3</b> 操作对象/元数据</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="preprocess.html"><a href="preprocess.html#字符变量转为因子变量"><i class="fa fa-check"></i><b>2.3.1</b> 字符变量转为因子变量</a></li>
+<li class="chapter" data-level="2.3.2" data-path="preprocess.html"><a href="preprocess.html#subset"><i class="fa fa-check"></i><b>2.3.2</b> 筛选对象</a></li>
+<li class="chapter" data-level="2.3.3" data-path="preprocess.html"><a href="preprocess.html#因子变量水平的重命名"><i class="fa fa-check"></i><b>2.3.3</b> 因子变量水平的重命名</a></li>
+<li class="chapter" data-level="2.3.4" data-path="preprocess.html"><a href="preprocess.html#因子变量水平的排序"><i class="fa fa-check"></i><b>2.3.4</b> 因子变量水平的排序</a></li>
+<li class="chapter" data-level="2.3.5" data-path="preprocess.html"><a href="preprocess.html#重命名删除元数据变量"><i class="fa fa-check"></i><b>2.3.5</b> 重命名/删除元数据变量</a></li>
+<li class="chapter" data-level="2.3.6" data-path="preprocess.html"><a href="preprocess.html#提取细胞条码信息"><i class="fa fa-check"></i><b>2.3.6</b> 提取细胞条码信息</a></li>
+<li class="chapter" data-level="2.3.7" data-path="preprocess.html"><a href="preprocess.html#合并元数据变量"><i class="fa fa-check"></i><b>2.3.7</b> 合并元数据变量</a></li>
+<li class="chapter" data-level="2.3.8" data-path="preprocess.html"><a href="preprocess.html#拆分元数据变量"><i class="fa fa-check"></i><b>2.3.8</b> 拆分元数据变量</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="preprocess.html"><a href="preprocess.html#qc-分析可视化"><i class="fa fa-check"></i><b>2.4</b> QC 分析可视化</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>3</b> 降维与聚类分析</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="clustering.html"><a href="clustering.html#harmony"><i class="fa fa-check"></i><b>3.1</b> 降维和数据整合</a></li>
+<li class="chapter" data-level="3.2" data-path="clustering.html"><a href="clustering.html#find_cluster"><i class="fa fa-check"></i><b>3.2</b> 聚类分析</a></li>
+<li class="chapter" data-level="3.3" data-path="clustering.html"><a href="clustering.html#聚类的标记基因"><i class="fa fa-check"></i><b>3.3</b> 聚类的标记基因</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="annotation.html"><a href="annotation.html"><i class="fa fa-check"></i><b>4</b> 细胞类型注释</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="annotation.html"><a href="annotation.html#手工注释细胞类型"><i class="fa fa-check"></i><b>4.1</b> 手工注释细胞类型</a></li>
+<li class="chapter" data-level="4.2" data-path="annotation.html"><a href="annotation.html#自动注释"><i class="fa fa-check"></i><b>4.2</b> 自动注释</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="visulization.html"><a href="visulization.html"><i class="fa fa-check"></i><b>5</b> 数据可视化</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="visulization.html"><a href="visulization.html#umaptsne图"><i class="fa fa-check"></i><b>5.1</b> UMAP/tSNE图</a></li>
+<li class="chapter" data-level="5.2" data-path="visulization.html"><a href="visulization.html#细胞数目与比例"><i class="fa fa-check"></i><b>5.2</b> 细胞数目与比例</a></li>
+<li class="chapter" data-level="5.3" data-path="visulization.html"><a href="visulization.html#基因表达量"><i class="fa fa-check"></i><b>5.3</b> 基因表达量</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="visulization.html"><a href="visulization.html#小提琴图"><i class="fa fa-check"></i><b>5.3.1</b> 小提琴图</a></li>
+<li class="chapter" data-level="5.3.2" data-path="visulization.html"><a href="visulization.html#umap图"><i class="fa fa-check"></i><b>5.3.2</b> UMAP图</a></li>
+<li class="chapter" data-level="5.3.3" data-path="visulization.html"><a href="visulization.html#热图"><i class="fa fa-check"></i><b>5.3.3</b> 热图</a></li>
+<li class="chapter" data-level="5.3.4" data-path="visulization.html"><a href="visulization.html#dotplot图"><i class="fa fa-check"></i><b>5.3.4</b> DotPlot图</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="DEG.html"><a href="DEG.html"><i class="fa fa-check"></i><b>6</b> 基因差异表达分析</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="DEG.html"><a href="DEG.html#差异表达基因列表"><i class="fa fa-check"></i><b>6.1</b> 差异表达基因列表</a></li>
+<li class="chapter" data-level="6.2" data-path="DEG.html"><a href="DEG.html#差异表达基因数目统计"><i class="fa fa-check"></i><b>6.2</b> 差异表达基因数目统计</a></li>
+<li class="chapter" data-level="6.3" data-path="DEG.html"><a href="DEG.html#差异表达基因火山图"><i class="fa fa-check"></i><b>6.3</b> 差异表达基因火山图</a></li>
+<li class="chapter" data-level="6.4" data-path="DEG.html"><a href="DEG.html#差异表达基因热图"><i class="fa fa-check"></i><b>6.4</b> 差异表达基因热图</a>
+<ul>
+<li class="chapter" data-level="" data-path="DEG.html"><a href="DEG.html#差异表达基因热图-细胞内表达量"><i class="fa fa-check"></i>差异表达基因热图 (细胞内表达量)</a></li>
+<li class="chapter" data-level="" data-path="DEG.html"><a href="DEG.html#差异表达基因热图-组内平均表达量"><i class="fa fa-check"></i>差异表达基因热图 (组内平均表达量)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="DEG.html"><a href="DEG.html#差异表达基因功能富集分析"><i class="fa fa-check"></i><b>6.5</b> 差异表达基因功能富集分析</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="trajectory.html"><a href="trajectory.html"><i class="fa fa-check"></i><b>7</b> 轨迹分析</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="trajectory.html"><a href="trajectory.html#diffusion-map"><i class="fa fa-check"></i><b>7.1</b> Diffusion Map</a></li>
+<li class="chapter" data-level="7.2" data-path="trajectory.html"><a href="trajectory.html#monocle2"><i class="fa fa-check"></i><b>7.2</b> Monocle2</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="trajectory.html"><a href="trajectory.html#seurat-对象转-celldataset-对象"><i class="fa fa-check"></i><b>7.2.1</b> Seurat 对象转 CellDataSet 对象</a></li>
+<li class="chapter" data-level="7.2.2" data-path="trajectory.html"><a href="trajectory.html#state-比例与-root-state"><i class="fa fa-check"></i><b>7.2.2</b> State 比例与 Root State</a></li>
+<li class="chapter" data-level="7.2.3" data-path="trajectory.html"><a href="trajectory.html#细胞轨迹图"><i class="fa fa-check"></i><b>7.2.3</b> 细胞轨迹图</a></li>
+<li class="chapter" data-level="7.2.4" data-path="trajectory.html"><a href="trajectory.html#拟时间与基因表达量"><i class="fa fa-check"></i><b>7.2.4</b> 拟时间与基因表达量</a></li>
+<li class="chapter" data-level="7.2.5" data-path="trajectory.html"><a href="trajectory.html#monocle-结果导入-seurat-对象"><i class="fa fa-check"></i><b>7.2.5</b> Monocle 结果导入 Seurat 对象</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="trajectory.html"><a href="trajectory.html#rna-速率分析"><i class="fa fa-check"></i><b>7.3</b> RNA 速率分析</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="trajectory.html"><a href="trajectory.html#前期准备"><i class="fa fa-check"></i><b>7.3.1</b> 前期准备</a></li>
+<li class="chapter" data-level="7.3.2" data-path="trajectory.html"><a href="trajectory.html#loom-文件转-seurat-对象"><i class="fa fa-check"></i><b>7.3.2</b> Loom 文件转 Seurat 对象</a></li>
+<li class="chapter" data-level="7.3.3" data-path="trajectory.html"><a href="trajectory.html#合并多个-seurat-对象"><i class="fa fa-check"></i><b>7.3.3</b> 合并多个 Seurat 对象</a></li>
+<li class="chapter" data-level="7.3.4" data-path="trajectory.html"><a href="trajectory.html#把-spliceassay-添加到-seurat-对象"><i class="fa fa-check"></i><b>7.3.4</b> 把 SpliceAssay 添加到 Seurat 对象</a></li>
+<li class="chapter" data-level="7.3.5" data-path="trajectory.html"><a href="trajectory.html#rna-速率的计算与可视化"><i class="fa fa-check"></i><b>7.3.5</b> RNA 速率的计算与可视化</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="visium.html"><a href="visium.html"><i class="fa fa-check"></i><b>8</b> 空间转录组分析</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="visium.html"><a href="visium.html#创建对象-1"><i class="fa fa-check"></i><b>8.1</b> 创建对象</a></li>
+<li class="chapter" data-level="8.2" data-path="visium.html"><a href="visium.html#单样本聚类分析"><i class="fa fa-check"></i><b>8.2</b> 单样本聚类分析</a></li>
+<li class="chapter" data-level="8.3" data-path="visium.html"><a href="visium.html#整合多个样本"><i class="fa fa-check"></i><b>8.3</b> 整合多个样本</a></li>
+<li class="chapter" data-level="8.4" data-path="visium.html"><a href="visium.html#元数据信息的空间展示"><i class="fa fa-check"></i><b>8.4</b> 元数据信息的空间展示</a></li>
+<li class="chapter" data-level="8.5" data-path="visium.html"><a href="visium.html#基因表达量的空间展示"><i class="fa fa-check"></i><b>8.5</b> 基因表达量的空间展示</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="VDJ.html"><a href="VDJ.html"><i class="fa fa-check"></i><b>9</b> TCR/BCR 分析</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="VDJ.html"><a href="VDJ.html#前期准备-1"><i class="fa fa-check"></i><b>9.1</b> 前期准备</a>
+<ul>
+<li class="chapter" data-level="" data-path="VDJ.html"><a href="VDJ.html#数据准备"><i class="fa fa-check"></i>1. 数据准备</a></li>
+<li class="chapter" data-level="" data-path="VDJ.html"><a href="VDJ.html#样本信息表"><i class="fa fa-check"></i>2. 样本信息表</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="VDJ.html"><a href="VDJ.html#screpertoire"><i class="fa fa-check"></i><b>9.2</b> scRepertoire</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="VDJ.html"><a href="VDJ.html#合并多个样本的-tcrbcr-数据"><i class="fa fa-check"></i><b>9.2.1</b> 合并多个样本的 TCR/BCR 数据</a></li>
+<li class="chapter" data-level="9.2.2" data-path="VDJ.html"><a href="VDJ.html#克隆型的可视化"><i class="fa fa-check"></i><b>9.2.2</b> 克隆型的可视化</a></li>
+<li class="chapter" data-level="9.2.3" data-path="VDJ.html"><a href="VDJ.html#把克隆型信息添加到-seuart-对象"><i class="fa fa-check"></i><b>9.2.3</b> 把克隆型信息添加到 Seuart 对象</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="VDJ.html"><a href="VDJ.html#immunarch"><i class="fa fa-check"></i><b>9.3</b> immunarch</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="VDJ.html"><a href="VDJ.html#加载多个样本的-tcrbcr-数据"><i class="fa fa-check"></i><b>9.3.1</b> 加载多个样本的 TCR/BCR 数据</a></li>
+<li class="chapter" data-level="9.3.2" data-path="VDJ.html"><a href="VDJ.html#克隆型的可视化-1"><i class="fa fa-check"></i><b>9.3.2</b> 克隆型的可视化</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="CNV.html"><a href="CNV.html"><i class="fa fa-check"></i><b>10</b> CNV 分析</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="CNV.html"><a href="CNV.html#数据集准备"><i class="fa fa-check"></i><b>10.1</b> 数据集准备</a></li>
+<li class="chapter" data-level="10.2" data-path="CNV.html"><a href="CNV.html#生成-infercnv-输入文件"><i class="fa fa-check"></i><b>10.2</b> 生成 inferCNV 输入文件</a></li>
+<li class="chapter" data-level="10.3" data-path="CNV.html"><a href="CNV.html#运行-infercnv"><i class="fa fa-check"></i><b>10.3</b> 运行 inferCNV</a></li>
+<li class="chapter" data-level="10.4" data-path="CNV.html"><a href="CNV.html#infercnv-结果的可视化"><i class="fa fa-check"></i><b>10.4</b> inferCNV 结果的可视化</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="LR.html"><a href="LR.html"><i class="fa fa-check"></i><b>11</b> 配受体相互作用分析</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="LR.html"><a href="LR.html#准备-cellphonedb-输入数据"><i class="fa fa-check"></i><b>11.1</b> 准备 CellPhoneDB 输入数据</a></li>
+<li class="chapter" data-level="11.2" data-path="LR.html"><a href="LR.html#运行-cellphonedb"><i class="fa fa-check"></i><b>11.2</b> 运行 CellPhoneDB</a></li>
+<li class="chapter" data-level="11.3" data-path="LR.html"><a href="LR.html#cellphonedb-结果的可视化"><i class="fa fa-check"></i><b>11.3</b> CellPhoneDB 结果的可视化</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="scATAC.html"><a href="scATAC.html"><i class="fa fa-check"></i><b>12</b> scATAC 分析</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="scATAC.html"><a href="scATAC.html#创建-seuart-对象"><i class="fa fa-check"></i><b>12.1</b> 创建 Seuart 对象</a></li>
+<li class="chapter" data-level="12.2" data-path="scATAC.html"><a href="scATAC.html#标准化与降维分析"><i class="fa fa-check"></i><b>12.2</b> 标准化与降维分析</a></li>
+<li class="chapter" data-level="12.3" data-path="scATAC.html"><a href="scATAC.html#基因活性的创建与可视化"><i class="fa fa-check"></i><b>12.3</b> 基因活性的创建与可视化</a></li>
+<li class="chapter" data-level="12.4" data-path="scATAC.html"><a href="scATAC.html#scatac-聚类分析"><i class="fa fa-check"></i><b>12.4</b> scATAC 聚类分析</a></li>
+<li class="chapter" data-level="12.5" data-path="scATAC.html"><a href="scATAC.html#用-scrna-数据进行注释"><i class="fa fa-check"></i><b>12.5</b> 用 scRNA 数据进行注释</a></li>
+<li class="chapter" data-level="12.6" data-path="scATAC.html"><a href="scATAC.html#差异可及性-peak-dap-分析"><i class="fa fa-check"></i><b>12.6</b> 差异可及性 Peak (DAP) 分析</a></li>
+<li class="chapter" data-level="12.7" data-path="scATAC.html"><a href="scATAC.html#基因组区域覆盖度展示"><i class="fa fa-check"></i><b>12.7</b> 基因组区域覆盖度展示</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="report.html"><a href="report.html"><i class="fa fa-check"></i><b>13</b> 分析报告</a></li>
+<li class="divider"></li>
+<li><a href="https://www.accuramed.com/" target="blank">云准医药科技（上海）有限公司</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">XSeurat2 中文教程</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="preprocess" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">2</span> 数据预处理<a href="preprocess.html#preprocess" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>XSeurat2 的数据预处理功能主要包含以下几个方面：</p>
+<ul>
+<li>读入单个样本数据，创建 Seurat 对象并进行数据预处理 (<strong>Run for Each Sample</strong>)</li>
+<li>合并多个样本的 Seurat 对象，并添加元数据 (<strong>Combine All Samples and Add Meta-data</strong>)</li>
+<li>对 Seurat 对象或元数据进行操作 (<strong>Manipulate Object/Meta-data</strong>)</li>
+<li>QC 分析可视化 (<strong>Visulization</strong>)</li>
+</ul>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-5"></span>
+<img src="figures/preprocess_ui.png" alt="数据预处理(Preprocess)功能菜单" width="50%" />
+<p class="caption">
+Figure 2.1: 数据预处理(Preprocess)功能菜单
+</p>
+</div>
+<div id="each_sample" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> 处理单个样本<a href="preprocess.html#each_sample" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="创建对象" class="section level3 hasAnchor" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> 创建对象<a href="preprocess.html#创建对象" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>XSeurat2 主要以 10x Genomics 的 CellRanger 的分析结果作为输入文件，创建 Seurat 对象。</p>
+<div id="方法1读入-cellranger-count-结果单样本" class="section level4 unnumbered hasAnchor">
+<h4>方法1：读入 CellRanger count 结果（单样本）<a href="preprocess.html#方法1读入-cellranger-count-结果单样本" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>关于 CellRanger count 结果文件的详细介绍，见 10x Genomics <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/using/count">官方文档</a>。</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-6"></span>
+<img src="figures/cellranger_count.png" alt="从CellRanger count 的结果中创建对象" width="100%" />
+<p class="caption">
+Figure 2.2: 从CellRanger count 的结果中创建对象
+</p>
+</div>
+</div>
+<div id="方法2读入-cellranger-aggr-结果多样本" class="section level4 unnumbered hasAnchor">
+<h4>方法2：读入 CellRanger aggr 结果（多样本）<a href="preprocess.html#方法2读入-cellranger-aggr-结果多样本" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>关于 CellRanger aggr 结果文件的详细介绍，见 10x Genomics <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/using/aggregate">官方文档</a>。</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-7"></span>
+<img src="figures/cellranger_aggr.png" alt="从CellRanger aggr 的结果中创建对象" width="100%" />
+<p class="caption">
+Figure 2.3: 从CellRanger aggr 的结果中创建对象
+</p>
+</div>
+</div>
+<div id="方法3读入-csvtsv-文本文件" class="section level4 unnumbered hasAnchor">
+<h4>方法3：读入 CSV/TSV 文本文件<a href="preprocess.html#方法3读入-csvtsv-文本文件" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>有时从<a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE115469">GEO</a>下载的单细胞数据是 CSV 或 TSV 文件，对于这样的文件，也可以用 XSeurat2 导入。</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-8"></span>
+<img src="figures/load_csv.png" alt="从CSV文件中创建对象" width="100%" />
+<p class="caption">
+Figure 2.4: 从CSV文件中创建对象
+</p>
+</div>
+</div>
+</div>
+<div id="双细胞分析" class="section level3 hasAnchor" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> 双细胞分析<a href="preprocess.html#双细胞分析" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>我们通过使用<a href="https://github.com/chris-mcginnis-ucsf/DoubletFinder">DoubletFinder软件</a>在 Seurat 对象的元数据中添加一列。其中，双细胞标记为 <strong>Doublet</strong>，单细胞标记为 <strong>Singlet</strong>。后续可以根据<a href="preprocess.html#subset">对象筛选功能</a>，去除所有标记为 <strong>Doublet</strong> 的细胞。</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-9"></span>
+<img src="figures/doublet_finder_ui.png" alt="使用 DoubletFinder 标记双细胞" width="100%" />
+<p class="caption">
+Figure 2.5: 使用 DoubletFinder 标记双细胞
+</p>
+</div>
+<p><br></p>
+<p>在 <strong>Seurat Object Bucket</strong> 下拉菜单中选择 <strong>FindDoublet</strong> 刚刚生成的 Seurat 对象，可以在对象元数据摘要中看到增加了 <strong>Is_doublet</strong> 这一列，并且可以看到具体的 <strong>Doublet</strong> 和 <strong>Singlet</strong> 的数目。</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-10"></span>
+<img src="figures/doublet_finder_summary.png" alt="使用 DoubletFinder 标记双细胞" width="100%" />
+<p class="caption">
+Figure 2.6: 使用 DoubletFinder 标记双细胞
+</p>
+</div>
+</div>
+</div>
+<div id="merge_rds" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> 合并样本/添加元数据<a href="preprocess.html#merge_rds" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><a href="preprocess.html#each_sample">单个样本预处理</a>结束后，我们可以把保存好的所有 Seurat 对象合并成一个大的 Seurat 对象，添加所需要的元数据后，进行后续分析。</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-11"></span>
+<img src="figures/merge_rds.png" alt="合并多个样本" width="100%" />
+<p class="caption">
+Figure 2.7: 合并多个样本
+</p>
+</div>
+<div id="添加样本信息" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> 添加样本信息<a href="preprocess.html#添加样本信息" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>我们把关于样本的信息写入到一个 CSV 的文本文件中。有以下几点要求：</p>
+<ol style="list-style-type: decimal">
+<li>样本信息表的每一行对应 Seurat 对象中的一个样本</li>
+<li>样本信息表第一列的列名是 <strong>orig.ident</strong></li>
+<li>从第二列开始，每列表示样本的一个属性，比如批次(batch)、样本组别(group)、性别(sex)等等，列名可以自定义</li>
+</ol>
+<p>上传 CSV 文件，将元数据导入 Seurat 对象中。</p>
+<p><strong>注意</strong>：为了区分用户自定义的样本信息和其他元数据，元数据中的样本信息列名前会自动添加前缀：<strong>SampleInfo_</strong></p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-12"></span>
+<img src="figures/add_sample_info.png" alt="添加样本信息" width="100%" />
+<p class="caption">
+Figure 2.8: 添加样本信息
+</p>
+</div>
+</div>
+<div id="添加基因集-umi-百分比" class="section level3 hasAnchor" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> 添加基因集 UMI 百分比<a href="preprocess.html#添加基因集-umi-百分比" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>在首次创建 Seurat 对象的时候，程序会自动计算线粒体基因表达量占细胞总 UMI 数的百分比(percent.mt)。除了线粒体基因，用户还可以指定自己感兴趣的基因集，计算这些基因的表达量占细胞总 UMI 数的百分比，并对生成的元数据属性进行命名。</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-13"></span>
+<img src="figures/add_percent.png" alt="添加基因集 UMI 百分比" width="50%" />
+<p class="caption">
+Figure 2.9: 添加基因集 UMI 百分比
+</p>
+</div>
+</div>
+<div id="添加基因集打分" class="section level3 hasAnchor" number="2.2.3">
+<h3><span class="header-section-number">2.2.3</span> 添加基因集打分<a href="preprocess.html#添加基因集打分" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><em>AddModuleScore()</em> 是 Seurat 中的一个常用函数，它的作用是在单细胞水平对一个基因集的表达量打分(<strong>Module Score</strong>)。Seurat 对 <em>AddModuleScore()</em> 的描述如下：</p>
+<blockquote>
+<p>Calculate the average expression levels of each program (cluster) on single cell level, subtracted by the aggregated expression of control feature sets. All analyzed features are binned based on averaged expression, and the control features are randomly selected from each bin.</p>
+</blockquote>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-14"></span>
+<img src="figures/add_module_score.png" alt="添加基因集打分" width="50%" />
+<p class="caption">
+Figure 2.10: 添加基因集打分
+</p>
+</div>
+</div>
+<div id="标记表达特定基因的细胞" class="section level3 hasAnchor" number="2.2.4">
+<h3><span class="header-section-number">2.2.4</span> 标记表达特定基因的细胞<a href="preprocess.html#标记表达特定基因的细胞" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>我们有时候要根据某些特定基因的表达来识别和筛选某些细胞，尤其是那些特异性表达的内源或外源基因。用户可以提供基因名和基因表达阈值（高于该阈值认为基因在细胞中表达）。XSeurat2 会在元数据中根据基因的表达量对所有细胞进行标记，用户后续可以根据<a href="preprocess.html#subset">对象筛选功能</a>，去除所有阳性或阴性的细胞。</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-15"></span>
+<img src="figures/gene_expr_cell.png" alt="标记表达特定基因的细胞" width="50%" />
+<p class="caption">
+Figure 2.11: 标记表达特定基因的细胞
+</p>
+</div>
+</div>
+</div>
+<div id="操作对象元数据" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> 操作对象/元数据<a href="preprocess.html#操作对象元数据" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="字符变量转为因子变量" class="section level3 hasAnchor" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> 字符变量转为因子变量<a href="preprocess.html#字符变量转为因子变量" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>XSeurat2 在生成 Seurat 对象的时候，会自动将元数据中的字符变量（<strong>Character Variable</strong>）转变为因子（<strong>Factor</strong>）。当导入其他程序产生的 Seurat 对象时，为了便于使用 XSeurat2，可以先使用该功能，把元数据的所有字符变量都转变为因子，再继续使用 XSeurat2。</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-16"></span>
+<img src="figures/string2factor.png" alt="字符变量转为因子变量" width="50%" />
+<p class="caption">
+Figure 2.12: 字符变量转为因子变量
+</p>
+</div>
+</div>
+<div id="subset" class="section level3 hasAnchor" number="2.3.2">
+<h3><span class="header-section-number">2.3.2</span> 筛选对象<a href="preprocess.html#subset" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>对 Seurat 对象的一个最常见操作就是根据一个或多个元数据变量的取值对 Seurat 对象中的细胞进行筛选。比如筛选线粒体含量小于 10% 的细胞、去除标记为双细胞的细胞、或者筛选某种细胞类型的细胞等等。如果要尝试不同的筛选条件，可以将筛选后的细胞保存为 RDS 文件，并用筛选条件对 RDS 文件命名。</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-17"></span>
+<img src="figures/subset.png" alt="筛选对象" width="100%" />
+<p class="caption">
+Figure 2.13: 筛选对象
+</p>
+</div>
+</div>
+<div id="因子变量水平的重命名" class="section level3 hasAnchor" number="2.3.3">
+<h3><span class="header-section-number">2.3.3</span> 因子变量水平的重命名<a href="preprocess.html#因子变量水平的重命名" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>元数据因子变量（<strong>Factor</strong>）会有一个或多个水平（<strong>Level</strong>），比如细胞类型（<strong>cell_type</strong>）变量有多个类型名称（<strong>T cell</strong>，<strong>B cell</strong>）。有时我们需要对这些因子的水平进行修改，比如：修改字母大小写、合并多个细胞类型（把一种细胞类型改为另一种细胞类型）等等。</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-18"></span>
+<img src="figures/rename_level.png" alt="因子变量水平的重命名" width="100%" />
+<p class="caption">
+Figure 2.14: 因子变量水平的重命名
+</p>
+</div>
+</div>
+<div id="因子变量水平的排序" class="section level3 hasAnchor" number="2.3.4">
+<h3><span class="header-section-number">2.3.4</span> 因子变量水平的排序<a href="preprocess.html#因子变量水平的排序" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>XSeurat2 还可以自定义元数据因子变量水平的排列顺序，这个功能最常见的使用场景是在作图的时候，调整变量水平在图上的排列顺序，比如细胞类型在 UMAP 图或者柱状图上出现的顺序等等。</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-19"></span>
+<img src="figures/reorder_level.png" alt="因子变量水平的排序" width="50%" />
+<p class="caption">
+Figure 2.15: 因子变量水平的排序
+</p>
+</div>
+</div>
+<div id="重命名删除元数据变量" class="section level3 hasAnchor" number="2.3.5">
+<h3><span class="header-section-number">2.3.5</span> 重命名/删除元数据变量<a href="preprocess.html#重命名删除元数据变量" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Seurat 对象中的元数据实际上就是一个数据框（<strong>data frame</strong>）。它的每一行表示一个细胞，每一列表示细胞的一个属性。我们在做单细胞数据分析的时候，需要熟练的查询、修改、增减元数据。比如，我们可以重命名或者删除某个元数据变量，换句话说，就是修改数据框的列名或者删除数据框的某些列。
+在 XSeurat2 中，这些操作可以用无代码的形式完成。</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-20"></span>
+<img src="figures/remove_meta.png" alt="重命名/删除元数据变量" width="100%" />
+<p class="caption">
+Figure 2.16: 重命名/删除元数据变量
+</p>
+</div>
+</div>
+<div id="提取细胞条码信息" class="section level3 hasAnchor" number="2.3.6">
+<h3><span class="header-section-number">2.3.6</span> 提取细胞条码信息<a href="preprocess.html#提取细胞条码信息" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>在某些情况下，细胞条码（<strong>Cell Barcode</strong>）中可能会包含重要的信息，我们可以使用 XSeurat2 解析细胞条码，选择感兴趣的信息，将其赋给一个变量并添加到元数据中。</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-21"></span>
+<img src="figures/split_bc.png" alt="提取细胞条码信息" width="100%" />
+<p class="caption">
+Figure 2.17: 提取细胞条码信息
+</p>
+</div>
+</div>
+<div id="合并元数据变量" class="section level3 hasAnchor" number="2.3.7">
+<h3><span class="header-section-number">2.3.7</span> 合并元数据变量<a href="preprocess.html#合并元数据变量" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>我们可以用 XSeurat2 把多个元数据变量合并为一个变量。将所选择的各个变量名用下划线连接，组成新变量的变量名。新变量的值是所选变量的值用下划线连接而成。</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-22"></span>
+<img src="figures/comb_meta.png" alt="合并元数据变量" width="100%" />
+<p class="caption">
+Figure 2.18: 合并元数据变量
+</p>
+</div>
+</div>
+<div id="拆分元数据变量" class="section level3 hasAnchor" number="2.3.8">
+<h3><span class="header-section-number">2.3.8</span> 拆分元数据变量<a href="preprocess.html#拆分元数据变量" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>我们也可以用 XSeurat2 把一个元数据变量拆分为多个变量。如果一个元数据变量的值中包含下划线，我们可以根据下划线的位置把变量的值拆分成多个变量，分别重命名后添加到元数据中。</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-23"></span>
+<img src="figures/split_meta.png" alt="拆分元数据变量" width="100%" />
+<p class="caption">
+Figure 2.19: 拆分元数据变量
+</p>
+</div>
+</div>
+</div>
+<div id="qc-分析可视化" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> QC 分析可视化<a href="preprocess.html#qc-分析可视化" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>QC 分析可视化常用的图有小提琴图（<strong>VlnPlot</strong>）和散点图（<strong>Scatter Plot</strong>）。我们可以在图形界面中选择合适的分组变量（<strong>Group Variable</strong>）和其他作图参数。生成的图可以另存为多种图像文件格式（<strong>pdf</strong>，<strong>png</strong> 和 <strong>tiff</strong>），也可以把生成的图保存到 Seurat 对象中，这样在后续分析过程中可以随时查看。还可以用 <a href="">Report 功能</a>，将保存在 Seurat 对象中的图以及作图函数展示在最终的报告中。</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-24"></span>
+<img src="figures/qc_plot.png" alt="QC 分析可视化" width="100%" />
+<p class="caption">
+Figure 2.20: QC 分析可视化
+</p>
+</div>
+<p><br></p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-25"></span>
+<img src="figures/qc_save.png" alt="另存为多种图像文件格式（左图）或保存到 Seurat 对象中（右图）" width="100%" />
+<p class="caption">
+Figure 2.21: 另存为多种图像文件格式（左图）或保存到 Seurat 对象中（右图）
+</p>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="clustering.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"split_by": "rmd"
+});
+});
+</script>
+
+</body>
+
+</html>

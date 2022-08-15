@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 降维与聚类分析 | XSeurat2 中文教程</title>
+  <meta name="description" content="3 降维与聚类分析 | XSeurat2 中文教程" />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 降维与聚类分析 | XSeurat2 中文教程" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 降维与聚类分析 | XSeurat2 中文教程" />
+  
+  
+  
+
+<meta name="author" content="傅兴" />
+
+
+<meta name="date" content="2022-08-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="preprocess.html"/>
+<link rel="next" href="annotation.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">XSeurat2 中文教程</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> 简介</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#系统需求"><i class="fa fa-check"></i><b>1.1</b> 系统需求</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#下载镜像"><i class="fa fa-check"></i><b>1.2</b> 下载镜像</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#安装运行"><i class="fa fa-check"></i><b>1.3</b> 安装运行</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#x-官方数据下载"><i class="fa fa-check"></i><b>1.4</b> 10x 官方数据下载</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="preprocess.html"><a href="preprocess.html"><i class="fa fa-check"></i><b>2</b> 数据预处理</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="preprocess.html"><a href="preprocess.html#each_sample"><i class="fa fa-check"></i><b>2.1</b> 处理单个样本</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="preprocess.html"><a href="preprocess.html#创建对象"><i class="fa fa-check"></i><b>2.1.1</b> 创建对象</a></li>
+<li class="chapter" data-level="2.1.2" data-path="preprocess.html"><a href="preprocess.html#双细胞分析"><i class="fa fa-check"></i><b>2.1.2</b> 双细胞分析</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="preprocess.html"><a href="preprocess.html#merge_rds"><i class="fa fa-check"></i><b>2.2</b> 合并样本/添加元数据</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="preprocess.html"><a href="preprocess.html#添加样本信息"><i class="fa fa-check"></i><b>2.2.1</b> 添加样本信息</a></li>
+<li class="chapter" data-level="2.2.2" data-path="preprocess.html"><a href="preprocess.html#添加基因集-umi-百分比"><i class="fa fa-check"></i><b>2.2.2</b> 添加基因集 UMI 百分比</a></li>
+<li class="chapter" data-level="2.2.3" data-path="preprocess.html"><a href="preprocess.html#添加基因集打分"><i class="fa fa-check"></i><b>2.2.3</b> 添加基因集打分</a></li>
+<li class="chapter" data-level="2.2.4" data-path="preprocess.html"><a href="preprocess.html#标记表达特定基因的细胞"><i class="fa fa-check"></i><b>2.2.4</b> 标记表达特定基因的细胞</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="preprocess.html"><a href="preprocess.html#操作对象元数据"><i class="fa fa-check"></i><b>2.3</b> 操作对象/元数据</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="preprocess.html"><a href="preprocess.html#字符变量转为因子变量"><i class="fa fa-check"></i><b>2.3.1</b> 字符变量转为因子变量</a></li>
+<li class="chapter" data-level="2.3.2" data-path="preprocess.html"><a href="preprocess.html#subset"><i class="fa fa-check"></i><b>2.3.2</b> 筛选对象</a></li>
+<li class="chapter" data-level="2.3.3" data-path="preprocess.html"><a href="preprocess.html#因子变量水平的重命名"><i class="fa fa-check"></i><b>2.3.3</b> 因子变量水平的重命名</a></li>
+<li class="chapter" data-level="2.3.4" data-path="preprocess.html"><a href="preprocess.html#因子变量水平的排序"><i class="fa fa-check"></i><b>2.3.4</b> 因子变量水平的排序</a></li>
+<li class="chapter" data-level="2.3.5" data-path="preprocess.html"><a href="preprocess.html#重命名删除元数据变量"><i class="fa fa-check"></i><b>2.3.5</b> 重命名/删除元数据变量</a></li>
+<li class="chapter" data-level="2.3.6" data-path="preprocess.html"><a href="preprocess.html#提取细胞条码信息"><i class="fa fa-check"></i><b>2.3.6</b> 提取细胞条码信息</a></li>
+<li class="chapter" data-level="2.3.7" data-path="preprocess.html"><a href="preprocess.html#合并元数据变量"><i class="fa fa-check"></i><b>2.3.7</b> 合并元数据变量</a></li>
+<li class="chapter" data-level="2.3.8" data-path="preprocess.html"><a href="preprocess.html#拆分元数据变量"><i class="fa fa-check"></i><b>2.3.8</b> 拆分元数据变量</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="preprocess.html"><a href="preprocess.html#qc-分析可视化"><i class="fa fa-check"></i><b>2.4</b> QC 分析可视化</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>3</b> 降维与聚类分析</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="clustering.html"><a href="clustering.html#harmony"><i class="fa fa-check"></i><b>3.1</b> 降维和数据整合</a></li>
+<li class="chapter" data-level="3.2" data-path="clustering.html"><a href="clustering.html#find_cluster"><i class="fa fa-check"></i><b>3.2</b> 聚类分析</a></li>
+<li class="chapter" data-level="3.3" data-path="clustering.html"><a href="clustering.html#聚类的标记基因"><i class="fa fa-check"></i><b>3.3</b> 聚类的标记基因</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="annotation.html"><a href="annotation.html"><i class="fa fa-check"></i><b>4</b> 细胞类型注释</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="annotation.html"><a href="annotation.html#手工注释细胞类型"><i class="fa fa-check"></i><b>4.1</b> 手工注释细胞类型</a></li>
+<li class="chapter" data-level="4.2" data-path="annotation.html"><a href="annotation.html#自动注释"><i class="fa fa-check"></i><b>4.2</b> 自动注释</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="visulization.html"><a href="visulization.html"><i class="fa fa-check"></i><b>5</b> 数据可视化</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="visulization.html"><a href="visulization.html#umaptsne图"><i class="fa fa-check"></i><b>5.1</b> UMAP/tSNE图</a></li>
+<li class="chapter" data-level="5.2" data-path="visulization.html"><a href="visulization.html#细胞数目与比例"><i class="fa fa-check"></i><b>5.2</b> 细胞数目与比例</a></li>
+<li class="chapter" data-level="5.3" data-path="visulization.html"><a href="visulization.html#基因表达量"><i class="fa fa-check"></i><b>5.3</b> 基因表达量</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="visulization.html"><a href="visulization.html#小提琴图"><i class="fa fa-check"></i><b>5.3.1</b> 小提琴图</a></li>
+<li class="chapter" data-level="5.3.2" data-path="visulization.html"><a href="visulization.html#umap图"><i class="fa fa-check"></i><b>5.3.2</b> UMAP图</a></li>
+<li class="chapter" data-level="5.3.3" data-path="visulization.html"><a href="visulization.html#热图"><i class="fa fa-check"></i><b>5.3.3</b> 热图</a></li>
+<li class="chapter" data-level="5.3.4" data-path="visulization.html"><a href="visulization.html#dotplot图"><i class="fa fa-check"></i><b>5.3.4</b> DotPlot图</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="DEG.html"><a href="DEG.html"><i class="fa fa-check"></i><b>6</b> 基因差异表达分析</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="DEG.html"><a href="DEG.html#差异表达基因列表"><i class="fa fa-check"></i><b>6.1</b> 差异表达基因列表</a></li>
+<li class="chapter" data-level="6.2" data-path="DEG.html"><a href="DEG.html#差异表达基因数目统计"><i class="fa fa-check"></i><b>6.2</b> 差异表达基因数目统计</a></li>
+<li class="chapter" data-level="6.3" data-path="DEG.html"><a href="DEG.html#差异表达基因火山图"><i class="fa fa-check"></i><b>6.3</b> 差异表达基因火山图</a></li>
+<li class="chapter" data-level="6.4" data-path="DEG.html"><a href="DEG.html#差异表达基因热图"><i class="fa fa-check"></i><b>6.4</b> 差异表达基因热图</a>
+<ul>
+<li class="chapter" data-level="" data-path="DEG.html"><a href="DEG.html#差异表达基因热图-细胞内表达量"><i class="fa fa-check"></i>差异表达基因热图 (细胞内表达量)</a></li>
+<li class="chapter" data-level="" data-path="DEG.html"><a href="DEG.html#差异表达基因热图-组内平均表达量"><i class="fa fa-check"></i>差异表达基因热图 (组内平均表达量)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="DEG.html"><a href="DEG.html#差异表达基因功能富集分析"><i class="fa fa-check"></i><b>6.5</b> 差异表达基因功能富集分析</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="trajectory.html"><a href="trajectory.html"><i class="fa fa-check"></i><b>7</b> 轨迹分析</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="trajectory.html"><a href="trajectory.html#diffusion-map"><i class="fa fa-check"></i><b>7.1</b> Diffusion Map</a></li>
+<li class="chapter" data-level="7.2" data-path="trajectory.html"><a href="trajectory.html#monocle2"><i class="fa fa-check"></i><b>7.2</b> Monocle2</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="trajectory.html"><a href="trajectory.html#seurat-对象转-celldataset-对象"><i class="fa fa-check"></i><b>7.2.1</b> Seurat 对象转 CellDataSet 对象</a></li>
+<li class="chapter" data-level="7.2.2" data-path="trajectory.html"><a href="trajectory.html#state-比例与-root-state"><i class="fa fa-check"></i><b>7.2.2</b> State 比例与 Root State</a></li>
+<li class="chapter" data-level="7.2.3" data-path="trajectory.html"><a href="trajectory.html#细胞轨迹图"><i class="fa fa-check"></i><b>7.2.3</b> 细胞轨迹图</a></li>
+<li class="chapter" data-level="7.2.4" data-path="trajectory.html"><a href="trajectory.html#拟时间与基因表达量"><i class="fa fa-check"></i><b>7.2.4</b> 拟时间与基因表达量</a></li>
+<li class="chapter" data-level="7.2.5" data-path="trajectory.html"><a href="trajectory.html#monocle-结果导入-seurat-对象"><i class="fa fa-check"></i><b>7.2.5</b> Monocle 结果导入 Seurat 对象</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="trajectory.html"><a href="trajectory.html#rna-速率分析"><i class="fa fa-check"></i><b>7.3</b> RNA 速率分析</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="trajectory.html"><a href="trajectory.html#前期准备"><i class="fa fa-check"></i><b>7.3.1</b> 前期准备</a></li>
+<li class="chapter" data-level="7.3.2" data-path="trajectory.html"><a href="trajectory.html#loom-文件转-seurat-对象"><i class="fa fa-check"></i><b>7.3.2</b> Loom 文件转 Seurat 对象</a></li>
+<li class="chapter" data-level="7.3.3" data-path="trajectory.html"><a href="trajectory.html#合并多个-seurat-对象"><i class="fa fa-check"></i><b>7.3.3</b> 合并多个 Seurat 对象</a></li>
+<li class="chapter" data-level="7.3.4" data-path="trajectory.html"><a href="trajectory.html#把-spliceassay-添加到-seurat-对象"><i class="fa fa-check"></i><b>7.3.4</b> 把 SpliceAssay 添加到 Seurat 对象</a></li>
+<li class="chapter" data-level="7.3.5" data-path="trajectory.html"><a href="trajectory.html#rna-速率的计算与可视化"><i class="fa fa-check"></i><b>7.3.5</b> RNA 速率的计算与可视化</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="visium.html"><a href="visium.html"><i class="fa fa-check"></i><b>8</b> 空间转录组分析</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="visium.html"><a href="visium.html#创建对象-1"><i class="fa fa-check"></i><b>8.1</b> 创建对象</a></li>
+<li class="chapter" data-level="8.2" data-path="visium.html"><a href="visium.html#单样本聚类分析"><i class="fa fa-check"></i><b>8.2</b> 单样本聚类分析</a></li>
+<li class="chapter" data-level="8.3" data-path="visium.html"><a href="visium.html#整合多个样本"><i class="fa fa-check"></i><b>8.3</b> 整合多个样本</a></li>
+<li class="chapter" data-level="8.4" data-path="visium.html"><a href="visium.html#元数据信息的空间展示"><i class="fa fa-check"></i><b>8.4</b> 元数据信息的空间展示</a></li>
+<li class="chapter" data-level="8.5" data-path="visium.html"><a href="visium.html#基因表达量的空间展示"><i class="fa fa-check"></i><b>8.5</b> 基因表达量的空间展示</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="VDJ.html"><a href="VDJ.html"><i class="fa fa-check"></i><b>9</b> TCR/BCR 分析</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="VDJ.html"><a href="VDJ.html#前期准备-1"><i class="fa fa-check"></i><b>9.1</b> 前期准备</a>
+<ul>
+<li class="chapter" data-level="" data-path="VDJ.html"><a href="VDJ.html#数据准备"><i class="fa fa-check"></i>1. 数据准备</a></li>
+<li class="chapter" data-level="" data-path="VDJ.html"><a href="VDJ.html#样本信息表"><i class="fa fa-check"></i>2. 样本信息表</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="VDJ.html"><a href="VDJ.html#screpertoire"><i class="fa fa-check"></i><b>9.2</b> scRepertoire</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="VDJ.html"><a href="VDJ.html#合并多个样本的-tcrbcr-数据"><i class="fa fa-check"></i><b>9.2.1</b> 合并多个样本的 TCR/BCR 数据</a></li>
+<li class="chapter" data-level="9.2.2" data-path="VDJ.html"><a href="VDJ.html#克隆型的可视化"><i class="fa fa-check"></i><b>9.2.2</b> 克隆型的可视化</a></li>
+<li class="chapter" data-level="9.2.3" data-path="VDJ.html"><a href="VDJ.html#把克隆型信息添加到-seuart-对象"><i class="fa fa-check"></i><b>9.2.3</b> 把克隆型信息添加到 Seuart 对象</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="VDJ.html"><a href="VDJ.html#immunarch"><i class="fa fa-check"></i><b>9.3</b> immunarch</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="VDJ.html"><a href="VDJ.html#加载多个样本的-tcrbcr-数据"><i class="fa fa-check"></i><b>9.3.1</b> 加载多个样本的 TCR/BCR 数据</a></li>
+<li class="chapter" data-level="9.3.2" data-path="VDJ.html"><a href="VDJ.html#克隆型的可视化-1"><i class="fa fa-check"></i><b>9.3.2</b> 克隆型的可视化</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="CNV.html"><a href="CNV.html"><i class="fa fa-check"></i><b>10</b> CNV 分析</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="CNV.html"><a href="CNV.html#数据集准备"><i class="fa fa-check"></i><b>10.1</b> 数据集准备</a></li>
+<li class="chapter" data-level="10.2" data-path="CNV.html"><a href="CNV.html#生成-infercnv-输入文件"><i class="fa fa-check"></i><b>10.2</b> 生成 inferCNV 输入文件</a></li>
+<li class="chapter" data-level="10.3" data-path="CNV.html"><a href="CNV.html#运行-infercnv"><i class="fa fa-check"></i><b>10.3</b> 运行 inferCNV</a></li>
+<li class="chapter" data-level="10.4" data-path="CNV.html"><a href="CNV.html#infercnv-结果的可视化"><i class="fa fa-check"></i><b>10.4</b> inferCNV 结果的可视化</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="LR.html"><a href="LR.html"><i class="fa fa-check"></i><b>11</b> 配受体相互作用分析</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="LR.html"><a href="LR.html#准备-cellphonedb-输入数据"><i class="fa fa-check"></i><b>11.1</b> 准备 CellPhoneDB 输入数据</a></li>
+<li class="chapter" data-level="11.2" data-path="LR.html"><a href="LR.html#运行-cellphonedb"><i class="fa fa-check"></i><b>11.2</b> 运行 CellPhoneDB</a></li>
+<li class="chapter" data-level="11.3" data-path="LR.html"><a href="LR.html#cellphonedb-结果的可视化"><i class="fa fa-check"></i><b>11.3</b> CellPhoneDB 结果的可视化</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="scATAC.html"><a href="scATAC.html"><i class="fa fa-check"></i><b>12</b> scATAC 分析</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="scATAC.html"><a href="scATAC.html#创建-seuart-对象"><i class="fa fa-check"></i><b>12.1</b> 创建 Seuart 对象</a></li>
+<li class="chapter" data-level="12.2" data-path="scATAC.html"><a href="scATAC.html#标准化与降维分析"><i class="fa fa-check"></i><b>12.2</b> 标准化与降维分析</a></li>
+<li class="chapter" data-level="12.3" data-path="scATAC.html"><a href="scATAC.html#基因活性的创建与可视化"><i class="fa fa-check"></i><b>12.3</b> 基因活性的创建与可视化</a></li>
+<li class="chapter" data-level="12.4" data-path="scATAC.html"><a href="scATAC.html#scatac-聚类分析"><i class="fa fa-check"></i><b>12.4</b> scATAC 聚类分析</a></li>
+<li class="chapter" data-level="12.5" data-path="scATAC.html"><a href="scATAC.html#用-scrna-数据进行注释"><i class="fa fa-check"></i><b>12.5</b> 用 scRNA 数据进行注释</a></li>
+<li class="chapter" data-level="12.6" data-path="scATAC.html"><a href="scATAC.html#差异可及性-peak-dap-分析"><i class="fa fa-check"></i><b>12.6</b> 差异可及性 Peak (DAP) 分析</a></li>
+<li class="chapter" data-level="12.7" data-path="scATAC.html"><a href="scATAC.html#基因组区域覆盖度展示"><i class="fa fa-check"></i><b>12.7</b> 基因组区域覆盖度展示</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="report.html"><a href="report.html"><i class="fa fa-check"></i><b>13</b> 分析报告</a></li>
+<li class="divider"></li>
+<li><a href="https://www.accuramed.com/" target="blank">云准医药科技（上海）有限公司</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">XSeurat2 中文教程</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="clustering" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">3</span> 降维与聚类分析<a href="clustering.html#clustering" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><a href="preprocess.html#preprocess">数据预处理</a> 结束后，进行降维分析和聚类分析。对多批次数据，XSeurat2 提供基于 <a href="https://portals.broadinstitute.org/harmony/articles/quickstart.html">harmony 软件</a> 的数据整合功能。</p>
+<div id="harmony" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> 降维和数据整合<a href="clustering.html#harmony" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>降维分析包含 <strong>PCA</strong> 分析，<strong>UMAP</strong> 分析 和 <strong>tSNE</strong> 分析（可选）。在 <strong>PCA</strong> 分析前我们可以 regress out 某些变量（可选）。如果需要处理批次效应，勾选 <strong>User Harmony</strong> 前面的复选框。降维分析结束后，XSeurat2 自动运行 <em>FindNeighbors()</em> 函数，得到的 Seurat 对象可以直接进行后续的聚类分析。</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-26"></span>
+<img src="figures/dim_reduc.png" alt="降维和数据整合" width="50%" />
+<p class="caption">
+Figure 3.1: 降维和数据整合
+</p>
+</div>
+</div>
+<div id="find_cluster" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> 聚类分析<a href="clustering.html#find_cluster" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>降维分析结束后，可以继续进行聚类分析。可以在下拉菜单中选择一个或多个 <strong>resolution</strong> 参数。聚类完成后，可以在 UMAP 或 tSNE 图中查看聚类的效果，在柱状图中查看每个 cluster 中的细胞数目。</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-27"></span>
+<img src="figures/find_cluster.png" alt="聚类分析" width="100%" />
+<p class="caption">
+Figure 3.2: 聚类分析
+</p>
+</div>
+</div>
+<div id="聚类的标记基因" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> 聚类的标记基因<a href="clustering.html#聚类的标记基因" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>通过差异表达分析，鉴定每个 cluster 中的标记（marker）基因。标记基因列表会保存在 Seurat 对象中，方便后续分析。也可以把基因列表单独保存为 CSV 文件后再用 Excel 软件打开。</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-28"></span>
+<img src="figures/find_cluster_marker.png" alt="聚类分析" width="100%" />
+<p class="caption">
+Figure 3.3: 聚类分析
+</p>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="preprocess.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="annotation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"split_by": "rmd"
+});
+});
+</script>
+
+</body>
+
+</html>
